@@ -4,8 +4,8 @@ import { useState, useRef, useCallback } from "react";
 import { Button } from "@/components/ui/button";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { Loader2 } from "lucide-react";
-import { Textarea } from "@/components/ui/textarea";
 import Markdown from "react-markdown";
+import { AUDIOERRORMESSAGES, COMMONERRORMESSAGE } from "@/constants/message";
 
 function AudioRecorder() {
   //states
@@ -34,9 +34,7 @@ function AudioRecorder() {
       });
 
       if (!displayStream.getAudioTracks().length) {
-        throw new Error(
-          "No system audio detected. Please ensure you've selected a source with audio."
-        );
+        throw new Error(AUDIOERRORMESSAGES.noSystemMessage);
       }
 
       const micStream = await navigator.mediaDevices.getUserMedia({
@@ -79,7 +77,9 @@ function AudioRecorder() {
       setIsRecording(true);
     } catch (err) {
       setError(
-        err instanceof Error ? err.message : "An unknown error occurred"
+        err instanceof Error
+          ? err.message
+          : COMMONERRORMESSAGE.unknownerroroccurred
       );
     } finally {
       setIsPreparing(false);
@@ -119,14 +119,14 @@ function AudioRecorder() {
       });
 
       if (!analysisResponse.ok) {
-        throw new Error("Failed to analyze audio");
+        throw new Error(AUDIOERRORMESSAGES.failedToAnalze);
       }
 
       const data = await analysisResponse.json();
       setSummary(data.summary);
     } catch (err) {
       setError(
-        err instanceof Error ? err.message : "An error occurred during analysis"
+        err instanceof Error ? err.message : AUDIOERRORMESSAGES.errorWhileAnalysis
       );
     } finally {
       setIsAnalyzing(false);
