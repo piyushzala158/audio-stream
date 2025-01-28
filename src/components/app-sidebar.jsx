@@ -67,14 +67,16 @@ export async function AppSidebar() {
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
                 <SidebarMenuButton>
-                  <Image
-                    src={session.user.image}
-                    width={26}
-                    height={26}
-                    alt="profile-pic"
-                    className="rounded-full"
-                  />
-                  {session.user.name}
+                  {session?.user?.image && (
+                    <Image
+                      src={session.user.image}
+                      width={26}
+                      height={26}
+                      alt="profile-pic"
+                      className="rounded-full"
+                    />
+                  )}
+                  {session?.user?.name}
                   <ChevronUp className="ml-auto" />
                 </SidebarMenuButton>
               </DropdownMenuTrigger>
