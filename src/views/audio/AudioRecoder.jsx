@@ -113,11 +113,7 @@ function AudioRecorder() {
       const formData = new FormData();
       formData.append("audio", audioBlob, "recorded_audio.webm");
 
-      const analysisResponse = await fetch("/api/analyze-audio", {
-        method: "POST",
-        body: formData,
-      });
-
+      const analysisResponse = await analyzeAudio(formData);
       if (!analysisResponse.ok) {
         throw new Error(AUDIOERRORMESSAGES.failedToAnalze);
       }
@@ -126,7 +122,9 @@ function AudioRecorder() {
       setSummary(data.summary);
     } catch (err) {
       setError(
-        err instanceof Error ? err.message : AUDIOERRORMESSAGES.errorWhileAnalysis
+        err instanceof Error
+          ? err.message
+          : AUDIOERRORMESSAGES.errorWhileAnalysis
       );
     } finally {
       setIsAnalyzing(false);
