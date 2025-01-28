@@ -166,11 +166,6 @@ function AudioRecorder() {
         <div className="w-full max-w-2xl mt-4">
           <h2 className="text-xl font-semibold mb-2">Analysis Summary:</h2>
           <Markdown>{summary}</Markdown>
-          {/* <Textarea
-            value={summary}
-            readOnly
-            className="w-full h-32 p-2 border"
-          /> */}
         </div>
       )}
     </div>
