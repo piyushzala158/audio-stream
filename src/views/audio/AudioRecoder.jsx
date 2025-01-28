@@ -8,14 +8,15 @@ import { Textarea } from "@/components/ui/textarea";
 import Markdown from "react-markdown";
 
 function AudioRecorder() {
+  //states
   const [isRecording, setIsRecording] = useState(false);
   const [isPreparing, setIsPreparing] = useState(false);
   const [audioURL, setAudioURL] = useState(null);
-
   const [error, setError] = useState(null);
   const [isAnalyzing, setIsAnalyzing] = useState(false);
   const [summary, setSummary] = useState(null);
 
+  //refs
   const mediaRecorderRef = useRef(null);
   const audioChunksRef = useRef([]);
   const audioURLRef = useRef(audioURL);
