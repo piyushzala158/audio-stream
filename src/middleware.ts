@@ -4,6 +4,7 @@ import { auth } from "@/auth";
 
 export async function middleware(request: NextRequest) {
   const session = await auth();
+  console.log("session: ", session);
 
   // Define the paths that should be protected
   const protectedPaths = ["/home", "/audio"];
@@ -14,13 +15,15 @@ export async function middleware(request: NextRequest) {
   // Check if the current path is in the protectedPaths array
   const isProtectedPath = protectedPaths.some((path) =>
     request.nextUrl.pathname.startsWith(path)
-  );
+);
 
-  // Check if the current path is in the authPaths array
-  const isAuthPath = authPaths.some((path) =>
-    request.nextUrl.pathname.startsWith(path)
-  );
+// Check if the current path is in the authPaths array
+const isAuthPath = authPaths.some((path) =>
+  request.nextUrl.pathname.startsWith(path)
+);
 
+console.log('isProtectedPath: ', isProtectedPath);
+console.log('isAuthPath: ', isAuthPath);ß
   if (isProtectedPath) {
     // If the user is not authenticated and trying to access a protected path
     if (!session) {
@@ -29,7 +32,6 @@ export async function middleware(request: NextRequest) {
       return NextResponse.redirect(loginUrl);
     }
   } else if (isAuthPath) {
-    console.log("isAuthPath: ", isAuthPath);
     // If the user is authenticated and trying to access an auth path (like login)
     if (session) {
       // Redirect to the home page
@@ -45,5 +47,5 @@ export async function middleware(request: NextRequest) {
 
 // Add a matcher for the paths you want the middleware to run on
 export const config = {
-  matcher: ["/home", "/audio", "/login"],
+  matcher: ["/", "/home", "/audio", "/login"],
 };
