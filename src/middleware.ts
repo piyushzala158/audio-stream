@@ -4,7 +4,7 @@ import { auth } from "@/auth";
 
 export async function middleware(request: NextRequest) {
   const session = await auth();
-  console.log("session: ", session);
+  
 
   // Define the paths that should be protected
   const protectedPaths = ["/home", "/audio"];
@@ -22,8 +22,8 @@ const isAuthPath = authPaths.some((path) =>
   request.nextUrl.pathname.startsWith(path)
 );
 
-console.log('isProtectedPath: ', isProtectedPath);
-console.log('isAuthPath: ', isAuthPath);
+
+
   if (isProtectedPath) {
     // If the user is not authenticated and trying to access a protected path
     if (!session) {

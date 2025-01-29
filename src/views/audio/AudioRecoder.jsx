@@ -4,8 +4,11 @@ import { useState, useRef, useCallback } from "react";
 import { Button } from "@/components/ui/button";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { Loader2 } from "lucide-react";
-import Markdown from "react-markdown";
 import { AUDIOERRORMESSAGES, COMMONERRORMESSAGE } from "@/constants/message";
+import Summary from "./Summary";
+import CommonLoader from "@/components/loaders/CommonLoader";
+import { analyzeAudioAction, saveAudioAction } from "@/actions/audio";
+import { useSession } from "next-auth/react";
 
 function AudioRecorder() {
   //states
@@ -15,6 +18,8 @@ function AudioRecorder() {
   const [error, setError] = useState(null);
   const [isAnalyzing, setIsAnalyzing] = useState(false);
   const [summary, setSummary] = useState(null);
+
+  const { data:currentUser  } = useSession();
 
   //refs
   const mediaRecorderRef = useRef(null);
@@ -113,13 +118,20 @@ function AudioRecorder() {
       const formData = new FormData();
       formData.append("audio", audioBlob, "recorded_audio.webm");
 
-      const analysisResponse = await analyzeAudio(formData);
+      const analysisResponse = await analyzeAudioAction(formData);
       if (!analysisResponse.ok) {
         throw new Error(AUDIOERRORMESSAGES.failedToAnalze);
       }
 
       const data = await analysisResponse.json();
       setSummary(data.summary);
+
+      const res = await saveAudioAction({
+        userId: currentUser.user?.id,
+        title: "Test",
+        description: data.summary,
+      });
+      console.log('res: ', res);
     } catch (err) {
       setError(
         err instanceof Error
@@ -155,18 +167,8 @@ function AudioRecorder() {
         </Alert>
       )}
       {audioURL && <audio src={audioURL} controls className="mt-4" />}
-      {isAnalyzing && (
-        <div className="flex items-center">
-          <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-          Analyzing audio...
-        </div>
-      )}
-      {summary && (
-        <div className="w-full max-w-2xl mt-4">
-          <h2 className="text-xl font-semibold mb-2">Analysis Summary:</h2>
-          <Markdown>{summary}</Markdown>
-        </div>
-      )}
+      {isAnalyzing && <CommonLoader />}
+      {!summary && <Summary summary={summary} />}
     </div>
   );
 }

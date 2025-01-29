@@ -36,7 +36,7 @@ const items = [
 
 export async function AppSidebar() {
   const session = await auth();
-  console.log("session: ", session);
+  
 
   return (
     <Sidebar>

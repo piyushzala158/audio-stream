@@ -1,5 +1,6 @@
 import { AppSidebar } from "@/components/app-sidebar";
 import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
+import { SessionProvider } from "next-auth/react";
 
 export const metadata = {
   title: "Next.js",
@@ -8,10 +9,12 @@ export const metadata = {
 
 export default function Layout({ children }) {
   return (
-    <SidebarProvider>
-      <AppSidebar />
-      <SidebarTrigger />
-      {children}
-    </SidebarProvider>
+    <SessionProvider>
+      <SidebarProvider>
+        <AppSidebar />
+        <SidebarTrigger />
+        {children}
+      </SidebarProvider>
+    </SessionProvider>
   );
 }
