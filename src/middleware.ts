@@ -23,7 +23,7 @@ const isAuthPath = authPaths.some((path) =>
 );
 
 console.log('isProtectedPath: ', isProtectedPath);
-console.log('isAuthPath: ', isAuthPath);ß
+console.log('isAuthPath: ', isAuthPath);
   if (isProtectedPath) {
     // If the user is not authenticated and trying to access a protected path
     if (!session) {
