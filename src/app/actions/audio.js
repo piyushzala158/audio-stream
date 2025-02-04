@@ -1,3 +1,4 @@
+'use server'
 import {
   ANALYZEAUDIO,
   GET_ALL_STREAMS,

@@ -1,6 +1,6 @@
 'use client'
 
-import { saveAudioAction } from "@/actions/audio";
+import { saveAudioAction } from "@/app/actions/audio";
 import { Button } from "@/components/ui/button";
 import { useSession } from "next-auth/react";
 import React from "react";

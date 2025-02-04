@@ -7,7 +7,7 @@ import { Loader2 } from "lucide-react";
 import { AUDIOERRORMESSAGES, COMMONERRORMESSAGE } from "@/constants/message";
 import Summary from "./Summary";
 import CommonLoader from "@/components/loaders/CommonLoader";
-import { analyzeAudioAction, saveAudioAction } from "@/actions/audio";
+import { analyzeAudioAction, saveAudioAction } from "@/app/actions/audio";
 import { useSession } from "next-auth/react";
 
 function AudioRecorder() {
