@@ -1,8 +1,8 @@
 import { getAllStreamsAction } from "@/app/actions/audio";
-import Image from "next/image";
+import Home from "@/views/home";
 
-export default async function Home() {
-  // const res = await getAllStreamsAction();
-  // console.log("res: ", res);
-  return <div></div>;
+export default async function HomePage() {
+  const res = await getAllStreamsAction();
+  const data = await res.json()
+  return <Home data={data} />;
 }

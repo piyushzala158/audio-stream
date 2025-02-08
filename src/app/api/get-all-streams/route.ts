@@ -1,38 +1,34 @@
-import { NextResponse } from "next/server"
+import { cookies } from "next/headers"
+import { NextRequest, NextResponse } from "next/server"
+import { createClient } from '@supabase/supabase-js'
+import { auth } from "@/auth";
 
-export async function GET() {
+
+
+export async function GET(req:NextRequest) {
+
+  const { searchParams } = new URL(req.url);
+  const userId = searchParams.get("userId");
+
+
   try {
-    // const cookieStore = cookies()
-    // const supabase = createClient(process.env.NEXT_PUBLIC_SUPABASE_URL!, process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!, {
-    //   cookies: {
-    //     get(name: string) {
-    //       return cookieStore.get(name)?.value
-    //     },
-    //   },
-    // })
 
-    // // Get the user's ID from the session
-    // const {
-    //     data: { session },
-    //   } = await supabase.auth.getSession()
-    // console.log('user111111111111111111111: ', session);
+    const supabase = createClient(
+      process.env.SUPABASE_URL!,
+      process.env.SUPABASE_ANON_KEY!,
+ 
+    )
 
-    // if (!session) {
-    //   return NextResponse.json({ error: "User not found" }, { status: 404 })
-    // }
-    // const userId = session.user.id
+    // Now you can query with RLS enabled.
+    const {data , error}= await supabase.schema('public').from('streams').select('*')
 
-    // Fetch streams for the current user
-    // const { data, error } = await supabase.from("streams").select("id, title, user_id").eq("user_id", user.id)
+    if (error) {
+      return NextResponse.json({ error: error.message }, { status: 400 })
+    }
 
-    // if (error) {
-    //   return NextResponse.json({ error: error.message }, { status: 400 })
-    // }
-
-    // return NextResponse.json({ streams: data })
+    return NextResponse.json({ streams: data })
   } catch (error) {
-    console.error("Error fetching streams:", error)
+    
     return NextResponse.json({ error: "Internal server error" }, { status: 500 })
   }
 }
-
