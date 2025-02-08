@@ -44,8 +44,8 @@ export async function POST(req) {
     // Generate content using Gemini
     const result = await model.generateContent([
       "You are an assistant analyzing an audio recording of a meeting. Your task is to provide a structured summary with a title(important), description(important), and detailed sections: \n\n" +
-        "1. **Title**: A concise and informative title summarizing the key topic of the meeting.\n" +
-        "2. **Description**: A short paragraph (2-3 sentences) summarizing the meeting’s purpose and main discussion points.\n" +
+        "1. **Title**: A concise and informative title summarizing the key topic of the meeting and should point using '**Title**:'.\n" +
+        "2. **Description**: A short paragraph (2-3 sentences) summarizing the meeting’s purpose and main discussion points  and should point using '**Description**:.\n" +
         "3. **Meeting Overview**: Summarize the main purpose and context of the meeting in 2-3 sentences. \n" +
         "4. **Key Points Discussed**: Provide a list of the most important points or topics covered, each with a brief explanation. Include timestamps for when these points were discussed in the audio. \n" +
         "5. **Decisions Made**: Highlight any decisions or conclusions reached during the meeting, along with their timestamps. \n" +
