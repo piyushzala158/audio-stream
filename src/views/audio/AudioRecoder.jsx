@@ -47,7 +47,7 @@ function AudioRecorder() {
         audio: true,
       });
 
-      const audioContext = new AudioContext();
+      const audioContext = new AudioContext({ sampleRate: 16000 });
       const systemSource = audioContext.createMediaStreamSource(displayStream);
       const micSource = audioContext.createMediaStreamSource(micStream);
       const destination = audioContext.createMediaStreamDestination();
@@ -57,7 +57,8 @@ function AudioRecorder() {
 
       const combinedStream = destination.stream;
       const recorder = new MediaRecorder(combinedStream, {
-        mimeType: "audio/webm",
+        mimeType: "audio/webm;codecs=opus", // Ensure Opus for better compression
+        audioBitsPerSecond: 32000, // 32 kbps
       });
 
       recorder.ondataavailable = (event) => {
