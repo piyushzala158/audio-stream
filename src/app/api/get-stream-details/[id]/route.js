@@ -3,8 +3,7 @@ import { NextResponse } from "next/server";
 
 export async function GET(request, { params }) {
   try {
-    const id = await params.id;
-    console.log("id: ", id);
+    const { id } = await params;
 
     const { data, error } = await supabase
       .from("streams")
@@ -12,7 +11,6 @@ export async function GET(request, { params }) {
       .eq("id", id)
       .single();
 
-    console.log("data: ", data);
     if (error) {
       return NextResponse.json({ error: error.message }, { status: 400 });
     }
@@ -23,7 +21,6 @@ export async function GET(request, { params }) {
 
     return NextResponse.json({ stream: data });
   } catch (error) {
-    console.error("Error fetching stream details:", error);
     return NextResponse.json(
       { error: "Internal server error" },
       { status: 500 }

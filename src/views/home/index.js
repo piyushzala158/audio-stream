@@ -4,7 +4,6 @@ import { auth } from "@/auth";
 
 const Home = async ({ data }) => {
   const { user } = await auth();
-  console.log("session: ", user.name);
 
   return (
     <div className="">

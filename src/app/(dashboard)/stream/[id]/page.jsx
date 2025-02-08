@@ -2,7 +2,7 @@ import { getStreamDetailsAction } from "@/app/actions/audio";
 import StremDetails from "@/views/stream/StremDetails";
 
 const page = async ({ params }) => {
-  const id = await params.id;
+  const id = params.id;
   const res = await getStreamDetailsAction(id);
 
   return <StremDetails data={res.stream} />;
@@ -20,5 +20,9 @@ export async function generateMetadata({ params }) {
   return {
     title: data?.stream?.title,
     description: data?.stream?.description,
+    openGraph: {
+      title: data?.stream?.title,
+      description: data?.stream?.description,
+    },
   };
 }
