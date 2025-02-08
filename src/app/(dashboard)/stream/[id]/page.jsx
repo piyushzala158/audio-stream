@@ -18,7 +18,7 @@ export async function generateMetadata({ params }) {
   const data = await getStreamDetailsAction(id);
 
   return {
-    title: data?.title,
-    description: data?.description,
+    title: data?.stream?.title,
+    description: data?.stream?.description,
   };
 }
