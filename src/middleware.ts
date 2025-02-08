@@ -7,7 +7,7 @@ export async function middleware(request: NextRequest) {
   
 
   // Define the paths that should be protected
-  const protectedPaths = ["/home", "/audio"];
+  const protectedPaths = ["/home", "/audio",'/stream'];
 
   // Define the auth paths (login, register, etc.)
   const authPaths = ["/login"];
@@ -47,5 +47,5 @@ const isAuthPath = authPaths.some((path) =>
 
 // Add a matcher for the paths you want the middleware to run on
 export const config = {
-  matcher: ["/", "/home", "/audio", "/login"],
+  matcher: ["/", "/home", "/audio", "/login",'/stream'],
 };
