@@ -43,7 +43,7 @@ export async function POST(req) {
 
     // Generate content using Gemini
     const result = await model.generateContent([
-      "You are an assistant analyzing an audio recording of a meeting. Your task is to provide a structured summary with a title, description, and detailed sections: \n\n" +
+      "You are an assistant analyzing an audio recording of a meeting. Your task is to provide a structured summary with a title(important), description(important), and detailed sections: \n\n" +
         "1. **Title**: A concise and informative title summarizing the key topic of the meeting.\n" +
         "2. **Description**: A short paragraph (2-3 sentences) summarizing the meeting’s purpose and main discussion points.\n" +
         "3. **Meeting Overview**: Summarize the main purpose and context of the meeting in 2-3 sentences. \n" +
@@ -58,6 +58,7 @@ export async function POST(req) {
 
     const response = await result.response;
     const summary = response.text();
+    console.log("summary: ", summary);
 
     // Extract title and description separately
     const titleMatch = summary.match(/\*\*Title\*\*: (.+)/);
@@ -80,7 +81,6 @@ export async function POST(req) {
     const cleanedSummaryWithoutTitleDesc = cleanedSummary
       .replace(/\*\*Title\*\*:.*\n/, "")
       .replace(/\*\*Description\*\*:.*\n/, "");
-
 
     return NextResponse.json({
       summary: cleanedSummaryWithoutTitleDesc.trim(),
