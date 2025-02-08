@@ -47,5 +47,5 @@ const isAuthPath = authPaths.some((path) =>
 
 // Add a matcher for the paths you want the middleware to run on
 export const config = {
-  matcher: ["/", "/home", "/audio", "/login",'/stream'],
+  matcher: ["/", "/home", "/audio", "/login",'/stream/:path*'],
 };
