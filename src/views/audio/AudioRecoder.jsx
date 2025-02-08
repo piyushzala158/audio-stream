@@ -7,8 +7,9 @@ import { Loader2 } from "lucide-react";
 import { AUDIOERRORMESSAGES, COMMONERRORMESSAGE } from "@/constants/message";
 import Summary from "./Summary";
 import CommonLoader from "@/components/loaders/CommonLoader";
-import { analyzeAudioAction, saveAudioAction } from "@/app/actions/audio";
+import { saveAudioAction } from "@/app/actions/audio";
 import { useSession } from "next-auth/react";
+import { analyzeAudioAction } from "@/app/actions/analyzeAudio";
 
 function AudioRecorder() {
   //states
@@ -19,7 +20,7 @@ function AudioRecorder() {
   const [isAnalyzing, setIsAnalyzing] = useState(false);
   const [summary, setSummary] = useState(null);
 
-  const { data:currentUser  } = useSession();
+  const { data: currentUser } = useSession();
 
   //refs
   const mediaRecorderRef = useRef(null);
@@ -117,6 +118,7 @@ function AudioRecorder() {
 
       const formData = new FormData();
       formData.append("audio", audioBlob, "recorded_audio.webm");
+      console.log("formData: ", formData);
 
       const analysisResponse = await analyzeAudioAction(formData);
       if (!analysisResponse.ok) {
@@ -124,14 +126,14 @@ function AudioRecorder() {
       }
 
       const data = await analysisResponse.json();
-      setSummary(data.summary);
+      setSummary(data);
 
-      const res = await saveAudioAction({
-        userId: currentUser.user?.id,
-        title: "Test",
-        description: data.summary,
-      });
-      console.log('res: ', res);
+      // const res = await saveAudioAction({
+      //   userId: currentUser.user?.id,
+      //   title: "Test",
+      //   description: data.summary,
+      // });
+      // console.log("res: ", res);
     } catch (err) {
       setError(
         err instanceof Error
@@ -168,7 +170,7 @@ function AudioRecorder() {
       )}
       {audioURL && <audio src={audioURL} controls className="mt-4" />}
       {isAnalyzing && <CommonLoader />}
-      {!summary && <Summary summary={summary} />}
+      {summary && <Summary summary={summary} />}
     </div>
   );
 }

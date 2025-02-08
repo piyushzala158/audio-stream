@@ -86,3 +86,24 @@ body {
     @apply bg-background text-foreground;
   }
 }
+
+/* Width of the scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+/* Background of the scrollbar track */
+::-webkit-scrollbar-track {
+  background: #000000; /* Light gray */
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: #2c2c2c; /* Dark gray */
+  border-radius: 6px;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: #2f2f30; /* Darker gray */
+}

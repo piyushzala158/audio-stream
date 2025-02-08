@@ -1,23 +1,17 @@
 "use server";
-import {
-  ANALYZEAUDIO,
-  GET_ALL_STREAMS,
-  SAVE_STREAM,
-} from "@/constants/urls/audio";
+import { SAVE_STREAM } from "@/constants/urls/audio";
 import { auth } from "@/auth";
 
-export const analyzeAudioAction = async (data = {}) => {
-  return await fetch(ANALYZEAUDIO.endpoint, {
-    method: ANALYZEAUDIO.method,
-    body: data,
-  });
-};
-
 export const saveAudioAction = async (data = {}) => {
-  return await fetch(SAVE_STREAM.endpoint, {
-    method: SAVE_STREAM.method,
-    body: JSON.stringify(data),
-  });
+  const res = await fetch(
+    `${process.env.NEXT_PUBLIC_APP_URL}/${SAVE_STREAM.endpoint}`,
+    {
+      method: SAVE_STREAM.method,
+      body: JSON.stringify(data),
+    }
+  );
+
+  return res?.json();
 };
 
 export const getAllStreamsAction = async () => {
@@ -29,4 +23,14 @@ export const getAllStreamsAction = async () => {
       method: "GET",
     }
   );
+};
+
+export const getStreamDetailsAction = async (id) => {
+  const res = await fetch(
+    `${process.env.NEXT_PUBLIC_APP_URL}/api/get-stream-details/${id}`,
+    {
+      method: "GET",
+    }
+  );
+  return res.json();
 };

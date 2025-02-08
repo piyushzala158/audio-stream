@@ -13,7 +13,7 @@ export default function Layout({ children }) {
       <SidebarProvider>
         <AppSidebar />
         <SidebarTrigger />
-        {children}
+        <div className="p-6">{children}</div>
       </SidebarProvider>
     </SessionProvider>
   );
